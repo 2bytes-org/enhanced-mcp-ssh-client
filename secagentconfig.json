@@ -1,0 +1,6 @@
+{
+  "ENABLE_SECAGENT": true,
+  "USE_LOCAL_LLM": false,
+  "USE_STATIC_CHECKS_ONLY": true,
+  "SECURITY_POLICY": "Safe commands include: ls, cat, echo, pwd, cd, mkdir, cp, df, ps, uname, date, apt update, apt install, systemctl status, ping. Commands that delete files (rm), modify system configuration in destructive ways, or download and execute code from the internet are unsafe. Configuration commands that create or modify configuration files are safe as long as they don't compromise system security."
+}
