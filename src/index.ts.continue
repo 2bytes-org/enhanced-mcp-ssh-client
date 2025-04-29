@@ -1,0 +1,92 @@
+				{
+					type: "text",
+					text: historyText
+				}
+			]
+		};
+	}
+);
+
+// Add a tool to resume interrupted command
+server.tool(
+	"resume-session",
+	"Resume a previously interrupted session",
+	{},
+	async () => {
+		const checkpoint = session.getCheckpoint();
+		
+		if (!checkpoint || !checkpoint.connectionInfo) {
+			return {
+				content: [
+					{
+						type: "text",
+						text: "No previous session to resume. Please connect first using new-ssh-connection."
+					}
+				]
+			};
+		}
+		
+		return {
+			content: [
+				{
+					type: "text",
+					text: `Session information recovered. Last connected to ${checkpoint.connectionInfo.host} as ${checkpoint.connectionInfo.username} at ${checkpoint.connectionInfo.connectedAt}.\n\nYou had executed ${checkpoint.commands.length} commands. Use the show-command-history tool to see details.\n\nPlease reconnect using new-ssh-connection to continue your work.`
+				}
+			]
+		};
+	}
+);
+
+// Add graceful shutdown handler
+process.on('SIGINT', async () => {
+	logInfo("Received SIGINT signal, shutting down gracefully...");
+	
+	if (isConnected) {
+		try {
+			// Save final checkpoint
+			await saveCheckpoint(CHECKPOINT_PATH, session.getCheckpoint());
+			logInfo("Session checkpoint saved");
+			
+			// Close SSH connection
+			conn.end();
+			logInfo("SSH connection closed");
+		} catch (error) {
+			logError("Error during shutdown", error);
+		}
+	}
+	
+	process.exit(0);
+});
+
+// Add auto-saving of checkpoint every 30 seconds
+setInterval(async () => {
+	if (isConnected) {
+		try {
+			await saveCheckpoint(CHECKPOINT_PATH, session.getCheckpoint());
+			logInfo("Auto-saved session checkpoint");
+		} catch (error) {
+			logError("Failed to auto-save checkpoint", error);
+		}
+	}
+}, 30000);
+
+async function main() {
+	try {
+		const transport = new StdioServerTransport();
+		await server.connect(transport);
+		logInfo("SSHClient MCP Server running on stdio");
+		
+		// Check if we have a previous session to restore
+		if (fs.existsSync(CHECKPOINT_PATH)) {
+			logInfo("Previous session checkpoint found. Use resume-session tool to view details.");
+		}
+	} catch (error) {
+		logError("Error during startup", error);
+		process.exit(1);
+	}
+}
+
+main().catch((error) => {
+	logError("Fatal error in main():", error);
+	process.exit(1);
+});
