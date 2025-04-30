@@ -13,7 +13,7 @@ const CONFIG_PATH = path.join(import.meta.dirname, '../secagentconfig.json');
 const CHECKPOINT_PATH = path.join(import.meta.dirname, '../session_checkpoint.json');
 const COMMAND_HISTORY_PATH = path.join(import.meta.dirname, '../command_history.json');
 const OLLAMA_HOST = 'http://localhost:11434';
-const CONNECTION_TIMEOUT = 30000; // 30 seconds timeout for connections
+const CONNECTION_TIMEOUT = 120000; // 120 seconds (2 minutes) timeout for connections
 
 // Create security agent with retry mechanism
 const secAgent = new secagent(CONFIG_PATH, OLLAMA_HOST);
@@ -350,7 +350,7 @@ process.on('SIGINT', async () => {
 	process.exit(0);
 });
 
-// Add auto-saving of checkpoint every 30 seconds
+// Add auto-saving of checkpoint every 10 seconds
 setInterval(async () => {
 	if (isConnected) {
 		try {
@@ -360,7 +360,7 @@ setInterval(async () => {
 			logError("Failed to auto-save checkpoint", error);
 		}
 	}
-}, 30000);
+}, 10000); // Auto-save every 10 seconds
 
 async function main() {
 	try {
