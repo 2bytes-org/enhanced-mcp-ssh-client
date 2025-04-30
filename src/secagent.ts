@@ -5,7 +5,7 @@ import { logError, logInfo, logSensitive } from './logger.js';
 // Constants for retry mechanism
 const MAX_RETRIES = 3;
 const RETRY_DELAY_MS = 1000;
-const REQUEST_TIMEOUT_MS = 5000;
+const REQUEST_TIMEOUT_MS = 20000; // 20 seconds timeout for LLM requests
 
 // Fallback models in case the primary model is unavailable
 const FALLBACK_MODELS = ['llama2', 'llama2-uncensored', 'mistral', 'gemma'];
