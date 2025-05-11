@@ -350,7 +350,7 @@ process.on('SIGINT', async () => {
 	process.exit(0);
 });
 
-// Add auto-saving of checkpoint every 10 seconds
+// Add auto-saving of checkpoint every 30 seconds
 setInterval(async () => {
 	if (isConnected) {
 		try {
@@ -360,7 +360,7 @@ setInterval(async () => {
 			logError("Failed to auto-save checkpoint", error);
 		}
 	}
-}, 10000); // Auto-save every 10 seconds
+}, 30000); // Auto-save every 30 seconds
 
 async function main() {
 	try {
