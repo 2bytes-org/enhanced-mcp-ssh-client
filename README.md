@@ -2,6 +2,9 @@
 
 An MCP server SSHClient with a configurable :fireworks:agentic:fireworks: security agent that can detect and prevent "unsafe" commands from executing through your SSH connection.
 
+[![Release](https://img.shields.io/github/v/release/2bytes-org/enhanced-mcp-ssh-client)](https://github.com/2bytes-org/enhanced-mcp-ssh-client/releases)
+[![License](https://img.shields.io/github/license/2bytes-org/enhanced-mcp-ssh-client)](LICENSE)
+
 ## Enhanced Features
 
 - Безопасное подключение к SSH серверам через MCP
@@ -10,7 +13,7 @@ An MCP server SSHClient with a configurable :fireworks:agentic:fireworks: securi
 - **NEW!** Защита от сбоев и потери прогресса с контрольными точками
 - **NEW!** Защищенное логирование без хранения паролей
 - **NEW!** История команд с возможностью просмотра
-- **NEW!** Улучшенная обработка ошибок и таймауты
+- **NEW!** Улучшенная обработка ошибок и таймаутшs
 
 ## Prerequisite
 To enable the agentic capabilities.
@@ -158,5 +161,13 @@ So far tested on the following:
 - Claude Desktop: ```claude_desktop_config.json```
 - Cursor AI: Command Panel -> Cursor Settings -> MCP Server
 - VSCode Insider
+
+## Версии и обновления
+
+Текущая версия: **v1.1.0**
+
+Информацию о новых выпусках и изменениях можно найти в [CHANGELOG.md](CHANGELOG.md) и на странице [Releases](https://github.com/2bytes-org/enhanced-mcp-ssh-client/releases).
+
+Инструкции по созданию релизов можно найти в файле [README_RELEASE.md](README_RELEASE.md).
 
 Have (responsible) fun! :rocket:
